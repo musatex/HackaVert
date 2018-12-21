@@ -5,15 +5,16 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      endpoint: "http://{your machine's ip}:4001",
-      color: 'white'
+      endpoint: "http://localhost:4001",
+      color: 'white',
+      code:""
     };
   }
 
   
-  send = () => {
+  send = (e) => {
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit('change color', this.state.color) // change 'red' to this.state.color
+    socket.emit('change color', e.target.value) // change 'red' to this.state.color
   }
 
 
@@ -22,19 +23,18 @@ class App extends Component {
   setColor = (color) => {
     this.setState({ color })
   }
-  
-  ///
 
   render() {
     const socket = socketIOClient(this.state.endpoint);
-    socket.on('change color', (col) => {
-      document.body.style.backgroundColor = col
+    socket.on('change color', (code) => {
+      this.setState({code})
     })
 
     return (
       <div style={{ textAlign: "center", backgroundColor:this.state.color }}>
-        <button onClick={() => this.send() }>Change Color</button>
+        {/* <button onClick={() => this.send() }>Change Color</button> */}
         <button id="blue" onClick={() => this.setColor('blue')}>Blue</button>
+        <input type="text" id="txt" onChange={(e) => this.send(e)} value={this.state.code}/>
         <button id="red" onClick={() => this.setColor('red')}>Red</button>
       </div>
     )
