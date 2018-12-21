@@ -5,7 +5,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      endpoint: "http://{your machine's ip}:4001",
+      endpoint: "http://localhost:4001",
       color: 'white'
     };
   }
